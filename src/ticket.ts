@@ -2,45 +2,90 @@ import { ticketBody } from './ticketBody';
 
 const API_KEY = "05a6oAzxbbIS2kAleZNc";
 
-const FD_ENDPOINT = "akshayagrawal87.freshdesk.com";
+const FD_ENDPOINT = "https://akshayagrawal87.freshdesk.com";
 
-export default class ticket {
-
-
-
-    createTicket(ticketData: ticketBody) {
-
-        let https = require("https");
+export class ticket {
 
 
-        // let ticketBody = {
-        //     "helpdesk_ticket": {
-        //         "subject": "Dummy Ticket",
-        //         "description": "My first Ticket.",
-        //         "email": "akshayagrawal87@gmail.com",
-        //         "priority": 1,
-        //         "status": 2
-        //     }
-        // }
+    async createTicket(ticketData: ticketBody) {
 
-        let params = {
-            hostname: FD_ENDPOINT,
-            path: "/helpdesk/tickets.json",
-            method: "POST",
+
+        await fetch(`${FD_ENDPOINT}/api/v2/tickets`, {
+            body: JSON.stringify(ticketData),
             headers: {
-                "Content-type": "application/json",
-                "Content-length": JSON.stringify(ticketData).length
+                'Authorization': 'Basic ' + btoa(API_KEY),
+                "Content-Type": "application/json"
             },
-            auth: API_KEY + ":X"
+            method: "POST"
+        })
+            .then(function (res) {
 
-        }
+                return res.json();
 
-        var req = https.request(params);
-        req.write(JSON.stringify(ticketData));
-        var res = req.end();
+            })
+
+            .then(function (data) {
+
+                console.log(data);
+
+            });
+
+    }
+
+    async listAllTicket() {
+
+        return await fetch(`${FD_ENDPOINT}` + '/api/v2/tickets',
+
+            {
+                method: 'GET',
+
+                headers: {
+                    'Authorization': 'Basic ' + btoa(API_KEY),
+
+                }
+
+            })
 
 
 
+
+
+    }
+
+    async updateTicket(ticketId: number, updateReq: object) {
+
+        await fetch(`${FD_ENDPOINT}/api/v2/tickets/${ticketId}`, {
+            body: JSON.stringify(updateReq),
+            headers: {
+                'Authorization': 'Basic ' + btoa(API_KEY),
+                "Content-Type": "application/json"
+            },
+            method: "PUT"
+        })
+            .then(function (res) {
+
+                return res.json();
+
+            })
+
+            .then(function (data) {
+
+                console.log(data);
+
+            });
+
+
+    }
+
+    async deleteTicket(ticketId: number) {
+
+        fetch(`${FD_ENDPOINT}/api/v2/tickets/${ticketId}`, {
+            headers: {
+                'Authorization': 'Basic ' + btoa(API_KEY),
+                "Content-Type": "application/json"
+            },
+            method: "DELETE"
+        })
     }
 
 
