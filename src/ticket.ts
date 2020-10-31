@@ -9,7 +9,6 @@ export class ticket {
 
     async createTicket(ticketData: ticketBody) {
 
-
         await fetch(`${FD_ENDPOINT}/api/v2/tickets`, {
             body: JSON.stringify(ticketData),
             headers: {
@@ -29,12 +28,11 @@ export class ticket {
                 console.log(data);
 
             });
-
     }
 
     async listAllTicket() {
 
-        return await fetch(`${FD_ENDPOINT}` + '/api/v2/tickets',
+        return await fetch(`${FD_ENDPOINT}` + '/api/v2/tickets?include=requester,description',
 
             {
                 method: 'GET',
@@ -45,12 +43,8 @@ export class ticket {
                 }
 
             })
-
-
-
-
-
     }
+
 
     async updateTicket(ticketId: number, updateReq: object) {
 
@@ -73,8 +67,6 @@ export class ticket {
                 console.log(data);
 
             });
-
-
     }
 
     async deleteTicket(ticketId: number) {
@@ -87,6 +79,4 @@ export class ticket {
             method: "DELETE"
         })
     }
-
-
 }
