@@ -1,0 +1,10 @@
+.header {
+	text-align: center;
+	font-size: 40px;
+}
+
+.fwlogo {
+	float: left !important;
+	padding: 5px;
+	margin-right: 4px;
+}
