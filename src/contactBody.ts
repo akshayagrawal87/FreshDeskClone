@@ -1,7 +1,8 @@
 export interface contactBody {
 
-    name: string,
-    email: string,
-    other_emails: string[]
+    name: any,
+    email: any,
+    phone: any,
+
 
 }

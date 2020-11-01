@@ -11,7 +11,7 @@ export class contact {
 
     async createContact(createReq: contactBody) {
 
-        let response = await fetch(`${FD_ENDPOINT}/api/v2/contacts`, {
+        await fetch(`${FD_ENDPOINT}/api/v2/contacts`, {
             body: JSON.stringify(createReq),
             headers: {
                 'Authorization': 'Basic ' + btoa(API_KEY),
@@ -19,8 +19,19 @@ export class contact {
             },
             method: "POST"
         })
-        let data = await response.json();
+            .then(function (res) {
 
+                return res.json();
+
+            })
+
+            .then(function (data) {
+
+                console.log(data);
+
+            });
+
+        window.location.reload()
 
 
     }
@@ -62,9 +73,9 @@ export class contact {
             });
     }
 
-    async delete(contactId: number) {
+    async deleteContact(contactId: number) {
 
-        fetch(`${FD_ENDPOINT}/api/v2/contacts/${contactId}/hard_delete`, {
+        fetch(`${FD_ENDPOINT}/api/v2/contacts/${contactId}`, {
             headers: {
                 'Authorization': 'Basic ' + btoa(API_KEY),
                 "Content-Type": "application/json"

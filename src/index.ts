@@ -519,7 +519,7 @@ ticketBar.addEventListener('click', (e) => {
 												<input
 													type="email"
 													class="form-control"
-													id="emailC"
+													id="emailCU"
 													aria-describedby="emailHelp"
                                                     placeholder="Enter email"
                                                     value=${contactData[i].email}
@@ -531,7 +531,7 @@ ticketBar.addEventListener('click', (e) => {
 												<input
 													type="text"
 													class="form-control"
-													id="name"
+													id="nameCU"
 													aria-describedby="emailHelp"
                                                     placeholder="Enter ccemail"
                                                     value=${contactData[i].name}
@@ -542,7 +542,7 @@ ticketBar.addEventListener('click', (e) => {
 												<input
 													type="text"
 													class="form-control"
-													id="phoneC"
+													id="phoneCU"
 													placeholder="Enter Phone"
 													value=${contactData[i].phone}
 												/>
@@ -562,7 +562,8 @@ ticketBar.addEventListener('click', (e) => {
 											<button
 												type="button"
 												class="btn btn-success"
-                                                id="updateTicket"
+                                                id="updateContact"
+                                                value=${contactData[i].id}
                                                 
 											>
 												Update
@@ -600,7 +601,7 @@ ticketBar.addEventListener('click', (e) => {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" data-dismiss="modal" class="btn btn-primary confirmDelete" >Yes</button>
+        <button type="button" data-dismiss="modal" class="btn btn-primary confirmContactDelete" >Yes</button>
       </div>
     </div>
   </div>
@@ -640,17 +641,64 @@ ticketBar.addEventListener('click', (e) => {
         let data = {
             name: name,
             email: email,
-            phone: parseInt(phone),
-
-
+            phone: phone,
         }
-        // if (email !== "" && name !== "" && phone !== "")
-        // await contacts.createContact(data);
-        //window.location.reload();
+        if (email !== "" && name !== "" && phone !== "")
+            await contacts.createContact(data);
+
 
     })
 
+    let confirmUpdateContact = <HTMLElement>document.querySelector('#updateContact');
 
+    confirmUpdateContact.addEventListener('click', async (e) => {
+
+        let email = (<HTMLInputElement>document.getElementById('emailCU')).value;
+
+
+        let name = (<HTMLInputElement>document.getElementById('nameCU')).value;
+
+
+        let phone = (<HTMLInputElement>document.getElementById('phoneCU')).value;
+
+
+
+        if (email === null || email === "")
+            (<HTMLInputElement>document.getElementById('emailCU')).classList.add('errorRequired');
+        else
+            (<HTMLInputElement>document.getElementById('emailCU')).classList.remove('errorRequired');
+        if (name === null || name === "")
+            (<HTMLInputElement>document.getElementById('nameCU')).classList.add('errorRequired');
+        else
+            (<HTMLInputElement>document.getElementById('nameCU')).classList.remove('errorRequired');
+        if (phone === null || phone === "")
+            (<HTMLInputElement>document.getElementById('phoneCU')).classList.add('errorRequired');
+        else
+            (<HTMLInputElement>document.getElementById('phoneCU')).classList.remove('errorRequired');
+
+
+        let data = {
+            name: name,
+            email: email,
+            phone: phone,
+        }
+        let id = parseInt((<HTMLInputElement>document.getElementById('updateContact')).value)
+        if (email !== "" && name !== "" && phone !== "")
+            await contacts.updateContact(id, data);
+        window.location.reload();
+
+
+    })
+
+    let confirmContactDelete = document.querySelectorAll('.confirmContactDelete');
+
+    for (let i = 0; i < confirmContactDelete.length; i++)
+        confirmContactDelete[i]?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            console.log(confirmContactDelete[i])
+            await contacts.deleteContact(contactData[i].id);
+            window.location.reload()
+        });
 
 })();
 
