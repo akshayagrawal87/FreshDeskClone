@@ -8,3 +8,14 @@
 	padding: 5px;
 	margin-right: 4px;
 }
+
+.TicketHeader {
+	font-size: 30px !important;
+	float: left;
+	padding: 10px;
+}
+
+.createTicket {
+	float: right !important;
+	width: 25%;
+}

@@ -1,10 +1,10 @@
 export interface ticketBody {
 
-    description: string,
-    subject: string,
-    email: string,
+    description: any,
+    subject: any,
+    email: any,
     priority: number,
-    status: number,
-    cc_emails: string[]
+    status: any,
+    cc_emails: any[]
 
 }

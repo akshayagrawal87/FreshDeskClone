@@ -31,17 +31,33 @@ function getStatus(num: number): string {
 
 }
 
+
 let tickets = new ticket();
 let contacts = new contact();
+// tickets.createTicket(
+//     {
+
+//         description: 'dummy',
+//         subject: 'dummy',
+//         email: 'dummy@gmail.com',
+//         priority: 1,
+//         status: 2,
+//         cc_emails: ['akki@gmail.com']
+
+//     }
+// );
+
+
 
 //IFFE To Load Ticket Table
 (async () => {
 
     let ticketData = await (await tickets.listAllTicket()).json();
-    console.log(ticketData);
-
+    //console.log(ticketData);
 
     let ele = <HTMLElement>document.querySelector('.tickets');
+
+
 
     let table = <HTMLElement>document.createElement('table');
     table.classList.add('ticket');
@@ -89,14 +105,8 @@ let contacts = new contact();
     th7.innerText = 'Due By';
     tr.appendChild(th7);
 
-
-
     let tbody = <HTMLElement>document.createElement('tbody');
     table.appendChild(tbody);
-
-
-
-
 
     for (let i = 0; i < ticketData.length; i++) {
 
@@ -140,13 +150,89 @@ let contacts = new contact();
 
         let deleteIcon = document.createElement('i');
         deleteIcon.classList.add('far', 'fa-trash-alt');
+        deleteIcon.setAttribute('data-toggle', 'modal')
+        deleteIcon.setAttribute('data-target', '#deleteModal')
+        deleteIcon.setAttribute('type', 'button');
         td7.appendChild(deleteIcon);
 
+        tr.setAttribute('value', ticketData[i].id);
 
-
+        td7.innerHTML += `<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Delete this Ticket?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" data-dismiss="modal" class="btn btn-primary confirmDelete">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>`
 
     }
 
+    let confirmDelete = document.querySelectorAll('.confirmDelete');
+
+    for (let i = 0; i < confirmDelete.length; i++)
+        confirmDelete[i]?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            console.log(confirmDelete[i])
+            await tickets.deleteTicket(ticketData[i].id);
+            window.location.reload()
+
+        })
 
 
-})()
+    let confirmCreateTicket = <HTMLElement>document.querySelector('#createTicket');
+
+    confirmCreateTicket.addEventListener('click', async (e) => {
+
+        e.preventDefault();
+        let email = (<HTMLInputElement>document.getElementById('email')).value;
+        console.log(email);
+
+        let ccemail = (<HTMLInputElement>document.getElementById('ccemail')).value;
+        console.log(ccemail);
+
+        let subject = (<HTMLInputElement>document.getElementById('subject')).value;
+        console.log(subject);
+
+        let status = (<HTMLInputElement>document.getElementById('status')).value;
+        console.log(status);
+
+        let priority = (<HTMLInputElement>document.getElementById('priority')).value;
+        console.log(priority);
+
+        let description = (<HTMLInputElement>document.getElementById('description')).value;
+        console.log(status);
+
+        let data = {
+
+            description: description,
+            subject: subject,
+            email: email,
+            priority: parseInt(priority),
+            status: parseInt(status),
+            cc_emails: ccemail.split(' ')
+
+        }
+
+        await tickets.createTicket(data);
+        window.location.reload()
+
+    })
+
+
+
+})();
+
+
+

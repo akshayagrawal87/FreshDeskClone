@@ -71,12 +71,14 @@ export class ticket {
 
     async deleteTicket(ticketId: number) {
 
-        fetch(`${FD_ENDPOINT}/api/v2/tickets/${ticketId}`, {
+        await fetch(`${FD_ENDPOINT}/api/v2/tickets/${ticketId}`, {
             headers: {
                 'Authorization': 'Basic ' + btoa(API_KEY),
                 "Content-Type": "application/json"
             },
             method: "DELETE"
         })
+        console.log('deleyte called for id' + ticketId);
     }
+
 }
