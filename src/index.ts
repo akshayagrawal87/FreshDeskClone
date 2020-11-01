@@ -46,17 +46,20 @@ let contacts = new contact();
 
 //     }
 // );
+
+
+
 let contactBar = (<HTMLElement>document.querySelector('.contactBar'));
 
 contactBar.addEventListener('click', (e) => {
 
     let contactTable = document.querySelector('.contacts');
     contactTable?.classList.remove('hide');
-    contactTable?.classList.add('active');
+
 
     let ticket = document.querySelector('.tickets')
     ticket?.classList.add('hide');
-    ticket?.classList.remove('active');
+
 
 });
 
@@ -71,6 +74,7 @@ ticketBar.addEventListener('click', (e) => {
     ticket?.classList.remove('hide');
 
 });
+
 
 
 
@@ -307,7 +311,6 @@ ticketBar.addEventListener('click', (e) => {
 
         })
 
-
     let confirmCreateTicket = <HTMLElement>document.querySelector('#createTicket');
 
     confirmCreateTicket.addEventListener('click', async (e) => {
@@ -360,9 +363,7 @@ ticketBar.addEventListener('click', (e) => {
         if (email !== "" && ccemail !== "" && subject !== "" && description !== "")
             await tickets.createTicket(data);
         //window.location.reload();
-
     })
-
 
     let confirmUpdateTicket = <HTMLElement>document.querySelector('#updateTicket');
 
@@ -398,14 +399,10 @@ ticketBar.addEventListener('click', (e) => {
 
 
         let data = {
-
-
             subject: subject,
             email: email,
             priority: parseInt(priority),
             status: parseInt(status),
-
-
         }
         //cc_emails: ccemail.split(' ')
 
@@ -414,10 +411,7 @@ ticketBar.addEventListener('click', (e) => {
         if (email !== "" && ccemail !== "" && subject !== "")
             await tickets.updateTicket(id, data);
         //window.location.reload();
-
     })
-
-
 
 })();
 
