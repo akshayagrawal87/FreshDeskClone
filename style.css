@@ -19,3 +19,11 @@
 	float: right !important;
 	width: 25%;
 }
+
+.errorRequired {
+	border: 1px solid red;
+}
+
+.hide {
+	display: none;
+}

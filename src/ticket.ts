@@ -28,6 +28,8 @@ export class ticket {
                 console.log(data);
 
             });
+
+        window.location.reload();
     }
 
     async listAllTicket() {
@@ -67,6 +69,9 @@ export class ticket {
                 console.log(data);
 
             });
+
+        window.location.reload();
+
     }
 
     async deleteTicket(ticketId: number) {

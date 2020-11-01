@@ -1,3 +1,5 @@
+import { contactBody } from './contactBody';
+
 
 const API_KEY = "05a6oAzxbbIS2kAleZNc";
 
@@ -7,10 +9,10 @@ const FD_ENDPOINT = "https://akshayagrawal87.freshdesk.com";
 export class contact {
 
 
-    async createContact() {
+    async createContact(createReq: contactBody) {
 
         let response = await fetch(`${FD_ENDPOINT}/api/v2/contacts`, {
-            body: "{ \"name\":\"Super Man\", \"email\":\"superman@freshdesk.com\", \"other_emails\": [\"lex@freshdesk.com\", \"louis@freshdesk.com\"] }",
+            body: JSON.stringify(createReq),
             headers: {
                 'Authorization': 'Basic ' + btoa(API_KEY),
                 "Content-Type": "application/json"
@@ -20,11 +22,12 @@ export class contact {
         let data = await response.json();
 
 
+
     }
 
     async listAllContacts() {
 
-        let response = await fetch("https://akshayagrawal87.freshdesk.com/api/v2/contacts", {
+        return await fetch("https://akshayagrawal87.freshdesk.com/api/v2/contacts", {
 
             headers: {
                 'Authorization': 'Basic ' + btoa(API_KEY),
@@ -33,7 +36,7 @@ export class contact {
             method: "GET"
         })
 
-        let data = await response.json();
+
 
     }
 
@@ -68,6 +71,8 @@ export class contact {
             },
             method: "DELETE"
         })
+
     }
+
 
 }
